@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&family=Lexend+Deca:wght@100;200;300;400;500&family=Nunito:ital,wght@0,200;0,300;1,200&family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;900&family=Quicksand:wght@300;400;500;600;700&family=Roboto&family=Titillium+Web:wght@200;300;400;600;700;900&family=Work+Sans:wght@100;200;300;400;500;600;700&display=swap");
+
+.total-contact {
+  display: flex;
+  .left-sidebar {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    max-width: 231px;
+    width: 100%;
+    min-height: 930px;
+    height: 100%;
+    background: #cef3ff;
+    .logo-dashboard {
+      h1 {
+        padding-top: 13px;
+        padding-bottom: 67px;
+        font-family: "Titillium Web";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 40px;
+        line-height: 61px;
+        color: #0884ff;
+      }
+      .dashboard {
+        font-family: "Titillium Web";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 27px;
+        display: flex;
+        align-items: center;
+        color: #181818;
+        padding-bottom: 36px;
+      }
+      .total {
+        background: #2da5fc;
+        border-radius: 6px;
+        max-width: 183px;
+        width: 100%;
+        max-height: 65px;
+        height: 100%;
+      }
+    }
+
+    .log-out {
+      display: flex;
+      padding-bottom: 43px;
+    }
+  }
+
+  .right-sidebar {
+    flex-grow: 1;
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      // max-width: 1497px;
+      // width: 100%;
+      max-height: 98px;
+      height: 100%;
+      background: #ffffff;
+      border-bottom: 2px solid #eaeaea;
+      .title-total {
+        padding-left: 24px;
+      }
+      .search-bar {
+        padding: 12px 0px 11px 19px;
+        display: flex;
+        align-items: center;
+        max-width: 522px;
+        width: 100%;
+        max-height: 50px;
+        height: 100%;
+        background: #f2f2f2;
+        border-radius: 6px;
+        .search {
+          background: #f2f2f2;
+        }
+      }
+      .user-account-logo {
+      }
+    }
+
+    .content {
+      display: flex;
+      max-width: 1497px;
+      width: 100%;
+      .new-contact-wrap {
+        margin: 26px 24px 0px;
+        background: #fbfbfb;
+        border-radius: 15px;
+        padding: 20px;
+        display: flex;
+        flex-grow: 1;
+        justify-content: space-between;
+
+        button {
+          display: flex;
+          align-items: center;
+          background: #ffffff;
+          box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
+          border-radius: 10px;
+          max-width: 162px;
+          width: 100%;
+          padding: 5px 15px;
+        }
+        .new-contact-btn {
+        }
+        .btns {
+          display: flex;
+          gap: 10px;
+          .delete-btn {
+          }
+          .import-btn {
+          }
+          .export-btn {
+          }
+        }
+      }
+    }
+  }
+}
