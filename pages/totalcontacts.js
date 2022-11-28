@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import ReactPaginate from "react-paginate";
 import DashboardIcon from "../components/dashboard-icon";
 import DeleteIcon from "../components/delete-icon";
 import LogOutIcon from "../components/log-out-icon";
 import NewContactIcon from "../components/new-contact-icon";
 import SearchIcon from "../components/search-icon";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import {
   getAllContacts,
   getUserApi,
@@ -17,6 +19,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import AsyncSelect from "react-select/async";
 import { isObject } from "lodash";
+import { useQuery, useQueryClient } from "react-query";
 
 export default function TotalContacts({ children, onChange, search }) {
   const [newContact, setNewContact] = useState(false);
@@ -58,6 +61,33 @@ export default function TotalContacts({ children, onChange, search }) {
     return [];
   };
 
+  const [page, setPage] = useState(1);
+  const [searchSelectContact, setSearchSelectContact] = useState(null);
+  const contactListQuery = useQuery(
+    ["contactsQuery", page],
+    () => {
+      if (auth != null) return getAllContacts(page);
+    },
+    {
+      enabled: true,
+    }
+  );
+  const contacts = contactListQuery.isSuccess
+    ? contactListQuery?.data?.data
+    : [];
+  const searchedContacts = searchSelectContact
+    ? contacts.filter((item) => item.id === searchSelectContact.id)
+    : contacts;
+  const handleChange = (value) => {
+    setSearchSelectContact(value);
+  };
+  const queryClient = useQueryClient();
+
+  const handlePageClick = (event) => {
+    setPage(event.selected + 1);
+    queryClient.invalidateQueries("contactsQuery");
+  };
+  const meta = contactListQuery.isSuccess ? contactListQuery?.data?.meta : [];
   const [selectedContact, setSelectedContact] = useState(null);
   return (
     <>
@@ -86,7 +116,7 @@ export default function TotalContacts({ children, onChange, search }) {
         <div className="right-sidebar">
           <div className="nav-bar">
             <h1 className="title-total">Total Contacts</h1>
-            <div className="search-bar" onChange={onChange}>
+            <div className="search-bar" onChange={handleChange}>
               <SearchIcon />
               <AsyncSelect
                 isClearable={true}
@@ -97,7 +127,8 @@ export default function TotalContacts({ children, onChange, search }) {
                 }}
                 onChange={(value) => {
                   {
-                    setSelectedContact(value), onChange(value);
+                    setSelectedContact(value);
+                    // onChange(value);
                   }
                 }}
                 isOptionSelected={(o) => {
@@ -156,8 +187,36 @@ export default function TotalContacts({ children, onChange, search }) {
                 <div>
                   {allContacts &&
                     allContacts.data.map((contact) => {
-                      return <li>{contact.name.toString()}</li>;
+                      return (
+                        <div className="flex justify-between px-14">
+                          <li>{contact.name.toString()}</li>
+                          <span>{contact.phone_number}</span>
+                        </div>
+                      );
                     })}
+
+                  <div className="flex justify-end px-14">
+                    {!searchSelectContact && (
+                      <div className="pagination">
+                        <ReactPaginate
+                          breakLabel="..."
+                          nextLabel={<MdArrowForwardIos />}
+                          onPageChange={handlePageClick}
+                          pageRangeDisplayed={5}
+                          marginPagesDisplayed={2}
+                          pageCount={meta.last_page}
+                          previousLabel={<MdArrowBackIos />}
+                          renderOnZeroPageCount={null}
+                          pageClassName={"link"}
+                          pageLinkClassName={"a-link"}
+                          previousClassName={"previous"}
+                          nextClassName={"next"}
+                          activeClassName={"active"}
+                          className={"pagination"}
+                        />
+                      </div>
+                    )}
+                  </div>
                 </div>
               </>
             )}
